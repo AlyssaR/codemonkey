@@ -1,0 +1,8 @@
+[dirs]
+backup: .\test\one, .\test\two
+
+install: .\test\three, .\test\four
+
+restore: .\test\five, .\test\six
+
+setup: .\test\seven, .\test\eight
