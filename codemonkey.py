@@ -176,8 +176,8 @@ def main():
         print "4) Restore"
         print "5) Clean"
         print "0) Exit"
-
-		choice = input("Choice: ")
+        
+        choice = input("Choice: ")
         if choice == 1:
             install()
         elif choice == 2:
