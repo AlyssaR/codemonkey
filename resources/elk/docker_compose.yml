@@ -1,0 +1,27 @@
+logstash:
+  image: logstash:2.0
+  ports:
+    - "514:5140"
+    - "514:5140/udp"
+    - "5141:5141/udp"
+  volumes:
+    - ./logstash:/etc/logstash/conf.d
+  links:
+    - elastic
+  command: logstash -f /etc/logstash/conf.d/logstash.conf
+
+elastic:
+  image: elasticsearch:2.0
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  volumes:
+    - /mnt/logs/elasticsearch:/usr/share/elasticsearch/data
+  command: elasticsearch -Des.network.bind_host=0.0.0.0
+
+kibana:
+  image: kibana:4.2
+  links:
+    - elastic
+  environment:
+    ELASTICSEARCH_URL: http://10.0.0.10:9200
