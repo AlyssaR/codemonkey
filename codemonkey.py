@@ -169,7 +169,7 @@ def main():
     load_configs()
 
     while True:
-        print "\n----- Menu -----"
+        print "\n----- MENU -----"
         print "1) Install"
         print "2) Setup"
         print "3) Backup"
