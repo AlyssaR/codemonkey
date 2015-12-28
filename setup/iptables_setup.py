@@ -42,9 +42,9 @@ def setup(tcp_ports, udp_ports):
 	subprocess.Popen(["iptables", "-A", "INPUT", "-p", "icmp", "--icmp-type", "8", "-m", "conntrack", "--ctstate", "NEW", "-j", "ACCEPT"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
-	#Now we attach the TCP and UDP chains to the INPUT chain to handle all new incoming connections. 
+	#Now we attach the TCP and UDP chains to the INPUT chain to handle all new incoming connections.
 	#Once a connection is accepted by either TCP or UDP chain, it is handled by the RELATED/ESTABLISHED traffic rule.
-	#The TCP and UDP chains will either accept new incoming connections, or politely reject them. 
+	#The TCP and UDP chains will either accept new incoming connections, or politely reject them.
 	#New TCP connections must be started with SYN packets.
 
 	subprocess.Popen(["iptables", "-A", "INPUT", "-p", "udp", "-m", "conntrack", "--ctstate", "NEW", "-j", "UDP"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -70,7 +70,7 @@ def setup(tcp_ports, udp_ports):
 	#now supposedly protection against spoofing attacks? + logging
 	subprocess.Popen(["iptables", "-t", "raw", "-I", "PREROUTING", "-m", "rpfilter", "--invert", "-j", "DROP"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
-	#For other protocols, we add a final rule to the INPUT chain to reject all remaining incoming 
+	#For other protocols, we add a final rule to the INPUT chain to reject all remaining incoming
 	#traffic with icmp protocol unreachable messages. This imitates Linux's default behavior.
 
 	##NOTE: This may be a bad idea.. if something is of a different protocol than icmp/tcp/udp we may be screwed with this rule...?
@@ -191,7 +191,7 @@ def menu():
 
 		elif choice == 0:
 			sys.exit("User Exited")
-	
+
 
 
 def main():
@@ -201,5 +201,4 @@ def main():
 	return 0
 
 
-
-main()
+if __name__ == '__main__': main()

@@ -54,8 +54,8 @@ def setup():
     module_names = load_modules("setup")
 
     for mod in module_names:
-        print "[+] Running", mod 
-        sys.modules[mod].run()
+        print "[+] Running", mod
+        sys.modules[mod].setup(["22", "80"], ["53"])
 
 def main():
     load_configs()
