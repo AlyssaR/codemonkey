@@ -52,11 +52,14 @@ def restore():
 
 def setup():
     print ">>> Set Up <<<"
+
+def test(args):
+    print ">>> Test Example Modules <<<"
     module_names = load_modules("example")
 
     for mod in module_names:
         print "[+] Running", mod
-        result = sys.modules[mod].run(["a"])
+        result = sys.modules[mod].run(args)
         if(result):
             print "[!] Error", result
         else:
@@ -64,6 +67,6 @@ def setup():
 
 def main():
     load_configs()
-    setup()
+    test()
 
 if __name__ == '__main__': main()
