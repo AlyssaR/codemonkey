@@ -1,7 +1,6 @@
 # ====================
 # =  Example Config  =
 # ====================
-
 # ------------
 # - Sections -
 # ------------
@@ -15,16 +14,36 @@
 ## linux (either/or windows)
 ## windows (either/or linux)
 ## services
+# ------------
+# - Services -
+# ------------
+# All services are required to have a section (even if empty)
+# Modules are expected to handle the options themselves.
+## [sectionname]
+## option1: value
+## option2: value
+# ============================================================
 
 [backup]
-# Services are: addns, bind, etc
 linux: /var/www/html, /var/www
 windows: C:\Users\Russell
-services: addns, bind, apache
+services: iptables
 
 [install]
+linux:
+windows:
+services:
 
 [restore]
+linux: /var/www/html, /var/www
+windows: C:\Users\Russell
+services: iptables
 
 [setup]
-iptables: 22, 80, 443
+linux:
+windows:
+services: iptables
+
+[iptables]
+tcp: 22, 80, 443
+udp: 53
