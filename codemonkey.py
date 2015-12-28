@@ -5,16 +5,6 @@ configs = {"install": {"linux": [], "windows": [], "services": []},
             "backup": {"linux": [], "windows": [], "services": []},
             "setup": {"linux": [], "windows": [], "services": []},
             "restore": {"linux": [], "windows": [], "services": []}}
-if isWindows:
-    sys.path.append(os.getcwd() + "\\backup")
-    sys.path.append(os.getcwd() + "\\install")
-    sys.path.append(os.getcwd() + "\\restore")
-    sys.path.append(os.getcwd() + "\\setup")
-else:
-    sys.path.append("./backup")
-    sys.path.append("./install")
-    sys.path.append("./restore")
-    sys.path.append("./setup")
 
 def backup():
     print "backup"
@@ -49,15 +39,23 @@ def load_configs():
         except:
             print "[?] No Services in", section
 
+def load_modules(dir):
+    module_names = [x for x in os.listdir("setup") if x[-1] != 'c']
+    for mod in module_names:
+        imp.load_source(mod[0:-3], ".\\setup\\" + mod)
+
+    return [x[0:-3] for x in module_names]
+
 def restore():
     print "restore"
 
 def setup():
-    moduleNames = [x[0:-3] for x in os.listdir("setup") if x[-1] != 'c']
-    for mod in moduleNames:
-        imp.load_source(mod, ".\\setup") 
+    print ">>> Set Up <<<"
+    module_names = load_modules("setup")
 
-    testmodule.test()
+    for mod in module_names:
+        print "[+] Running", mod 
+        sys.modules[mod].run()
 
 def main():
     load_configs()
