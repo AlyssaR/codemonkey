@@ -1,8 +1,19 @@
-[dirs]
-backup: .\test\one, .\test\two
+[backup]
+% Options are: addns, bind, etc
+general: /~, /var/www
+services: addns, bind, apache
 
-install: .\test\three, .\test\four
+[install]
+% Options are: addns, bind, etc
+general: /~, /var/www
+services: addns, bind, apache
 
-restore: .\test\five, .\test\six
+[restore]
+% Options are: addns, bind, etc
+general: /~, /var/www
+services: addns, bind, apache
 
-setup: .\test\seven, .\test\eight
+[setup]
+% Options are: addns, bind, etc
+general: /~, /var/www
+services: addns, bind, apache
