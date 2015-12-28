@@ -1,6 +1,9 @@
 import ConfigParser, os
 
-configs = {"install": [], "backup": [], "setup": [], "restore": []}
+configs = {"install": {"linux": [], "windows": [], "services": []},
+            "backup": {"linux": [], "windows": [], "services": []},
+            "setup": {"linux": [], "windows": [], "services": []},
+            "restore": {"linux": [], "windows": [], "services": []}}
 
 def backup(stuff):
     print "backup"
@@ -18,10 +21,23 @@ def install(stuff):
 def load_configs():
     config = ConfigParser.ConfigParser()
     config.read("config")
-    configs["backup"] = config.get("dirs", "backup").split(",")
-    configs["install"] = config.get("dirs", "install").split(",")
-    configs["restore"] = config.get("dirs", "restore").split(",")
-    configs["setup"] = config.get("dirs", "setup").split(",")
+
+    for section in configs:
+        try:
+            configs[section]["linux"] = config.get(section, "linux").split(",")
+        except:
+            print "[?] No Linux variable in", section
+
+        try:
+            configs[section]["windows"] = config.get(section, "windows").split(",")
+        except:
+            print "[?] No Windows variable in", section
+
+        try:
+            configs[section]["services"] = config.get(section, "services").split(",")
+        except:
+            print "[?] No Services in", section
+
 
 def restore(stuff):
     print "restore"
@@ -31,5 +47,6 @@ def setup(stuff):
 
 def main():
     load_configs()
+    print configs
 
 if __name__ == '__main__': main()
