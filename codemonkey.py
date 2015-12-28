@@ -66,9 +66,9 @@ def install():
             continue
 
         print "[+] Running", mod
-        if prefix[-1] != '_': #Service = has additional args
+        if prefix != "lin_" and prefix != "win_": #Service = has additional args
             try:
-                result = sys.modules[mod].run(configfile.items(mod))
+                result = sys.modules[mod].run(configfile.items(mod.split('_')[0]))
             except: #Error if no service section
                 print "[!] Insufficient config options provided for", mod
                 return
@@ -176,7 +176,7 @@ def main():
         print "4) Restore"
         print "5) Clean"
         print "0) Exit"
-        
+
         choice = input("Choice: ")
         if choice == 1:
             install()
