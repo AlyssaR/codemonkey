@@ -39,9 +39,9 @@ def load_configs():
         except:
             print "[?] No Services in", section
 
-def load_modules(dir):
-    module_names = [x for x in os.listdir("setup") if x[-1] != 'c']
-    cur_dir = ".\\setup\\" if isWindows else "./setup/"
+def load_modules(directory):
+    module_names = [x for x in os.listdir(directory) if x[-1] != 'c' and x[-2:] == "py"]
+    cur_dir = (".\\" + directory +"\\") if isWindows else ("./" + directory + "/")
     for mod in module_names:
         imp.load_source(mod[0:-3], cur_dir + mod)
 
@@ -52,11 +52,15 @@ def restore():
 
 def setup():
     print ">>> Set Up <<<"
-    module_names = load_modules("setup")
+    module_names = load_modules("example")
 
     for mod in module_names:
         print "[+] Running", mod
-        sys.modules[mod].setup(["22", "80"], ["53"])
+        result = sys.modules[mod].run(["a"])
+        if(result):
+            print "[!] Error", result
+        else:
+            print "[*] Success!"
 
 def main():
     load_configs()
