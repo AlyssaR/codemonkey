@@ -1,4 +1,4 @@
-import ConfigParser
+import ConfigParser, os
 
 configs = {"install": [], "backup": [], "setup": [], "restore": []}
 
@@ -10,6 +10,10 @@ def clean(stuff):
 
 def install(stuff):
     print "install"
+    #for script in listdir(./install):
+        #temp = open(script)
+        #result = temp.run()
+        #result is some error code/status
 
 def load_configs():
     config = ConfigParser.ConfigParser()
@@ -18,7 +22,7 @@ def load_configs():
     configs["install"] = config.get("dirs", "install").split(",")
     configs["restore"] = config.get("dirs", "restore").split(",")
     configs["setup"] = config.get("dirs", "setup").split(",")
-    
+
 def restore(stuff):
     print "restore"
 

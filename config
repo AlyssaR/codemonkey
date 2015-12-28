@@ -1,19 +1,29 @@
+# ====================
+# =  Example Config  =
+# ====================
+
+# ------------
+# - Sections -
+# ------------
+## backup
+## install
+## restore
+## setup
+# ---------------------------------
+# - Specify the following options -
+# ---------------------------------
+## linux (either/or windows)
+## windows (either/or linux)
+## services
+
 [backup]
-% Options are: addns, bind, etc
-general: /~, /var/www
+# Services are: addns, bind, etc
+linux: /var/www/html, /var/www
+windows: C:\Users\Russell
 services: addns, bind, apache
 
 [install]
-% Options are: addns, bind, etc
-general: /~, /var/www
-services: addns, bind, apache
 
 [restore]
-% Options are: addns, bind, etc
-general: /~, /var/www
-services: addns, bind, apache
 
 [setup]
-% Options are: addns, bind, etc
-general: /~, /var/www
-services: addns, bind, apache
