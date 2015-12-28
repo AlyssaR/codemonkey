@@ -41,8 +41,9 @@ def load_configs():
 
 def load_modules(dir):
     module_names = [x for x in os.listdir("setup") if x[-1] != 'c']
+    cur_dir = ".\\setup\\" if isWindows else "./setup/"
     for mod in module_names:
-        imp.load_source(mod[0:-3], ".\\setup\\" + mod)
+        imp.load_source(mod[0:-3], cur_dir + mod)
 
     return [x[0:-3] for x in module_names]
 
