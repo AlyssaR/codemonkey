@@ -27,3 +27,4 @@ services: addns, bind, apache
 [restore]
 
 [setup]
+iptables: 22, 80, 443

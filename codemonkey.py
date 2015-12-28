@@ -1,17 +1,28 @@
-import ConfigParser, os
+import ConfigParser, imp, os, sys
 
+isWindows = True if (os.name == "nt") else False
 configs = {"install": {"linux": [], "windows": [], "services": []},
             "backup": {"linux": [], "windows": [], "services": []},
             "setup": {"linux": [], "windows": [], "services": []},
             "restore": {"linux": [], "windows": [], "services": []}}
+if isWindows:
+    sys.path.append(os.getcwd() + "\\backup")
+    sys.path.append(os.getcwd() + "\\install")
+    sys.path.append(os.getcwd() + "\\restore")
+    sys.path.append(os.getcwd() + "\\setup")
+else:
+    sys.path.append("./backup")
+    sys.path.append("./install")
+    sys.path.append("./restore")
+    sys.path.append("./setup")
 
-def backup(stuff):
+def backup():
     print "backup"
 
-def clean(stuff):
+def clean():
     print "clean"
 
-def install(stuff):
+def install():
     print "install"
     #for script in listdir(./install):
         #temp = open(script)
@@ -38,15 +49,18 @@ def load_configs():
         except:
             print "[?] No Services in", section
 
-
-def restore(stuff):
+def restore():
     print "restore"
 
-def setup(stuff):
-    print "setup"
+def setup():
+    moduleNames = [x[0:-3] for x in os.listdir("setup") if x[-1] != 'c']
+    for mod in moduleNames:
+        imp.load_source(mod, ".\\setup") 
+
+    testmodule.test()
 
 def main():
     load_configs()
-    print configs
+    setup()
 
 if __name__ == '__main__': main()
