@@ -54,6 +54,9 @@ def setup(tcp_ports, udp_ports):
 
 	#Now for the real rules
 
+	print "-----------------------"
+	print "Opening User Defined Ports"
+
 	for number in tcp_ports:
 		print "Port", number
 		command = "iptables -A TCP -p tcp --dport " + number + " -j ACCEPT"
@@ -77,7 +80,8 @@ def setup(tcp_ports, udp_ports):
 
 	subprocess.Popen(["iptables", "-A", "INPUT", "-j", "REJECT", "--reject-with", "icmp-proto-unreachable"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
-
+	print "-----------------------"
+	print "All Rules Successfully Implemented"
 
 	show()
 
@@ -125,6 +129,7 @@ def clear():
 
 
 def show():
+	print "-----------------------"
 	print "Running 'iptables -nvL --line-numbers'...\n"
 	p = subprocess.Popen(["iptables", "-nvL", "--line-numbers"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 	output = p.stdout.read()
