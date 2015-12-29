@@ -8,78 +8,6 @@ configs = {"install": {"linux": [], "windows": [], "services": []},
             "setup": {"linux": [], "windows": [], "services": []},
             "restore": {"linux": [], "windows": [], "services": []}}
 
-def backup():
-    print ">>> Backup <<<"
-    module_names = load_modules("backup")
-
-    for mod in module_names:
-        prefix = mod[:3]
-        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"): #Skip incompatible mods
-            continue
-
-        print "[+] Running", mod
-        if prefix[-1] != '_': #Service = has additional args
-            try:
-                result = sys.modules[mod].run(configfile.items(mod))
-            except: #Error if no service section
-                print "[!] Insufficient config options provided for", mod
-                return
-        else:
-            result = sys.modules[mod].run()
-
-        if(result): #Display results
-            print "[!] Error", result
-        else:
-            print "[*] Success!"
-
-def clean():
-    print ">>> Clean <<<"
-    module_names = load_modules("Clean")
-
-    for mod in module_names:
-        prefix = mod[:3]
-        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"): #Skip incompatible mods
-            continue
-
-        print "[+] Running", mod
-        if prefix[-1] != '_': #Service = has additional args
-            try:
-                result = sys.modules[mod].run(configfile.items(mod))
-            except: #Error if no service section
-                print "[!] Insufficient config options provided for", mod
-                return
-        else:
-            result = sys.modules[mod].run()
-
-        if(result): #Display results
-            print "[!] Error", result
-        else:
-            print "[*] Success!"
-
-def install():
-    print ">>> Install <<<"
-    module_names = load_modules("install")
-
-    for mod in module_names:
-        prefix = mod[:3]
-        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"): #Skip incompatible mods
-            continue
-
-        print "[+] Running", mod
-        if prefix != "lin_" and prefix != "win_": #Service = has additional args
-            try:
-                result = sys.modules[mod].run(configfile.items(mod.split('_')[0]))
-            except: #Error if no service section
-                print "[!] Insufficient config options provided for", mod
-                return
-        else:
-            result = sys.modules[mod].run()
-
-        if(result): #Display results
-            print "[!] Error", result
-        else:
-            print "[*] Success!"
-
 def load_configs():
     for section in configs:
         try:
@@ -105,50 +33,30 @@ def load_modules(directory):
 
     return [x[:-3] for x in module_names]
 
-def restore():
-    print ">>> Restore <<<"
-    module_names = load_modules("restore")
-
+def run_modules(mode, module_names):
     for mod in module_names:
         prefix = mod[:3]
-        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"): #Skip incompatible mods
+
+        """Skip incompatible modules"""
+        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"):
             continue
 
         print "[+] Running", mod
-        if prefix[-1] != '_': #Service = has additional args
+
+        """If module is a service, retrieve additional args"""
+        if prefix != "lin_" and prefix != "win_":
+            if mod.split('_')[0] not in configs[mode]["services"]:
+                continue
             try:
-                result = sys.modules[mod].run(configfile.items(mod))
+                result = sys.modules[mod].run(configfile.items(mod.split('_')[0]))
             except: #Error if no service section
                 print "[!] Insufficient config options provided for", mod
                 return
         else:
             result = sys.modules[mod].run()
 
-        if(result): #Display results
-            print "[!] Error", result
-        else:
-            print "[*] Success!"
-
-def setup():
-    print ">>> Set Up <<<"
-    module_names = load_modules("setup")
-
-    for mod in module_names:
-        prefix = mod[:3]
-        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"): #Skip incompatible mods
-            continue
-
-        print "[+] Running", mod
-        if prefix[-1] != '_': #Service = has additional args
-            try:
-                result = sys.modules[mod].run(configfile.items(mod))
-            except: #Error if no service section
-                print "[!] Insufficient config options provided for", mod
-                return
-        else:
-            result = sys.modules[mod].run()
-
-        if(result): #Display results
+        """Display results"""
+        if(result):
             print "[!] Error", result
         else:
             print "[*] Success!"
@@ -179,15 +87,20 @@ def main():
 
         choice = input("Choice: ")
         if choice == 1:
-            install()
+            print ">>> Install <<<"
+            run_modules("install", load_modules("install"))
         elif choice == 2:
-            setup()
+            print ">>> Setup <<<"
+            run_modules("setup", load_modules("setup"))
         elif choice == 3:
-            backup()
+            print ">>> Backup <<<"
+            run_modules("backup", load_modules("backup"))
         elif choice == 4:
-            restore()
+            print ">>> Restore <<<"
+            run_modules("restore", load_modules("restore"))
         elif choice == 5:
-            clean()
+            print ">>> Clean <<<"
+            run_modules("clean", load_modules("clean"))
         elif choice == 0:
             return
         else:

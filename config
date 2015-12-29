@@ -32,7 +32,7 @@ services: iptables
 [install]
 linux:
 windows:
-services:
+services: elk
 
 [restore]
 linux: /var/www/html, /var/www

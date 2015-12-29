@@ -4,4 +4,5 @@ def run(args):
     OUTPUT:             If success, just use a plain return
             string      If error, return string error message
     """
-    
+    print "hello"
+    return
