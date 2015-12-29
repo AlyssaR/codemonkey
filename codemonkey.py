@@ -59,7 +59,7 @@ def run_modules(mode, module_names):
         if(result):
             print "[!] Error", result
         else:
-            print "[*] Success!"
+            print "[+] Success!"
 
 def test(args):
     print ">>> Test Example Modules <<<"
