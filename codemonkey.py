@@ -48,10 +48,11 @@ def run_modules(mode, module_names):
             if mod.split('_')[0] not in configs[mode]["services"]:
                 continue
             try:
-                result = sys.modules[mod].run(configfile.items(mod.split('_')[0]))
+                mod_configs = configfile.items(mod.split('_')[0])
             except: #Error if no service section
                 print "[!] Insufficient config options provided for", mod
                 return
+            result = sys.modules[mod].run(mod_configs)
         else:
             result = sys.modules[mod].run()
 
