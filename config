@@ -51,7 +51,7 @@ udp: 53
 
 [elk]
 #Required: Hosts Public IP
-localip: 10.0.0.10
+localip: 192.0.0.20
 #Required: Username for admin and local user
 username: elk
 #Required: Password for local user

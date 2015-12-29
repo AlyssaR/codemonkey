@@ -24,4 +24,3 @@ kibana:
   links:
     - elastic
   environment:
-    ELASTICSEARCH_URL: http://10.0.0.10:9200
