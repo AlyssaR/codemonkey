@@ -1,4 +1,4 @@
-import os, platform, subprocess, sys
+import getpass, os, platform, subprocess, sys
 
 def run(args):
     """
@@ -10,7 +10,6 @@ def run(args):
     os_version = float(platform.linux_distribution()[1])
     os_name = get_os_name(os_version)
     ip = [x[1] for x in args if x[0] == "localip"][0]
-
 
     """System Check"""
     if platform.linux_distribution()[0] != "Ubuntu":
@@ -36,13 +35,13 @@ def run(args):
     print "[+] Got docker-engine dependencies"
 
     if os_name != "precise":
-        subprocess.Popen(["apt-get", "update"], stdin=subprocess.PIPE).wait() #Refresh apt lists
+        #subprocess.Popen(["apt-get", "update"], stdin=subprocess.PIPE).wait() #Refresh apt lists
         image = "linux-image-extra-" + platform.release()
         subprocess.Popen(["apt-get", "install", image, "-y"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait() #Update kernel
     print "[+] Updated kernel"
 
     """Install Docker-Engine and Docker-Compose"""
-    subprocess.Popen(["apt-get", "update"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait() #Refresh apt lists
+    #subprocess.Popen(["apt-get", "update"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait() #Refresh apt lists
     subprocess.Popen(["apt-get", "install", "docker-engine", "-y"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait() #Install docker-engine
     os.system("curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-" \
                     + platform.system() + "-" + platform.machine() + " > /usr/local/bin/docker-compose")
@@ -50,6 +49,7 @@ def run(args):
     print "[+] Installed docker-engine and docker-compose"
 
     """Create Docker User"""
+    subprocess.Popen(["usermod", "-aG", "docker", getpass.getuser()], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
 
     """Config Docker with IP Address"""
     with open("./resources/elk/docker-compose.yml", "a") as compose_file:
@@ -58,14 +58,7 @@ def run(args):
         logstash_file.write("output {\n\telasticsearch {\n\t\thosts => [\"" + ip + "\"]\n\t}\n}")
     print "[+] Added IP address to docker configs"
 
-    """Compose DockerFile"""
-    os.system("cd resources/elk")
-    subprocess.Popen(["docker-compose", "up", "-d"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait() #Run
-    os.system("cd ../..")
-    print "[+] Composed appliances"
-
-    """Security Configurations for ELK Stack"""
-
+    print "[!] You must log out and log back in before you can start docker-engine or run the elk setup module."
     return
 
 def check_kernel(os_name):
