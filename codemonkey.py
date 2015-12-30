@@ -3,10 +3,10 @@ import ConfigParser, imp, os, sys
 isWindows = True if (os.name == "nt") else False
 configfile = ConfigParser.ConfigParser()
 configfile.read("config")
-configs = {"install": {"linux": [], "windows": [], "services": []},
-            "backup": {"linux": [], "windows": [], "services": []},
-            "setup": {"linux": [], "windows": [], "services": []},
-            "restore": {"linux": [], "windows": [], "services": []}}
+configs = {"install": {"folders": [], "services": []},
+            "backup": {"folders": [], "services": []},
+            "setup": {"folders": [], "services": []},
+            "restore": {"folders": [], "services": []}}
 
 def load_configs():
     for section in configs:

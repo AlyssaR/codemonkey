@@ -11,8 +11,7 @@
 # ---------------------------------
 # - Specify the following options -
 # ---------------------------------
-## linux (either/or windows)
-## windows (either/or linux)
+## folders
 ## services
 # ------------
 # - Services -
@@ -25,23 +24,17 @@
 # ============================================================
 
 [backup]
-linux: /var/www/html, /var/www
-windows: C:\Users\Russell
+folders: /var/www/html, /var/www
 services: iptables
 
 [install]
-linux:
-windows:
 services: elk
 
 [restore]
-linux: /var/www/html, /var/www
-windows: C:\Users\Russell
+folders: archive/somebackup.zip
 services: iptables
 
 [setup]
-linux:
-windows:
 services: iptables
 
 [iptables]
