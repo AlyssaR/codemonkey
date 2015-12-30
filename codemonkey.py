@@ -2,23 +2,29 @@ import ConfigParser, imp, os, sys
 
 isWindows = True if (os.name == "nt") else False
 configfile = ConfigParser.ConfigParser()
-configfile.read("config")
 configs = {"install": {"folders": [], "services": []},
             "backup": {"folders": [], "services": []},
             "setup": {"folders": [], "services": []},
             "restore": {"folders": [], "services": []}}
 
 def load_configs():
+    if len(sys.argv) == 1:
+        print "[!] Warning: No config file specified. Using default."
+        if os.path.isfile("default.conf"):
+            configfile.read("default.conf")
+        else:
+            return "[!] Error: default.conf not found. Exiting.."
+    else:
+        if os.path.isfile(sys.argv[1]):
+            configfile.read(sys.argv[1])
+        else:
+            return "[!] Could not load config file", sys.argv[1]
+
     for section in configs:
         try:
-            configs[section]["linux"] = configfile.get(section, "linux").split(",")
+            configs[section]["folders"] = configfile.get(section, "folders").split(",")
         except:
-            print "[?] No Linux variable in", section
-
-        try:
-            configs[section]["windows"] = configfile.get(section, "windows").split(",")
-        except:
-            print "[?] No Windows variable in", section
+            print "[?] No folders variable in", section
 
         try:
             configs[section]["services"] = configfile.get(section, "services").split(",")
@@ -75,7 +81,10 @@ def test(args):
             print "[*] Success!"
 
 def main():
-    load_configs()
+    result = load_configs()
+    if result:
+        print result
+        return
 
     while True:
         print "\n----- MENU -----"
