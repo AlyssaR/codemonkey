@@ -1,27 +1,14 @@
 # ====================
 # =  Example Config  =
 # ====================
-# ------------
-# - Sections -
-# ------------
-## backup
-## install
-## restore
-## setup
-# ---------------------------------
-# - Specify the following options -
-# ---------------------------------
-## folders
-## services
-# ------------
-# - Services -
-# ------------
-# All services are required to have a section (even if empty)
-# Modules are expected to handle the options themselves.
-## [sectionname]
-## option1: value
-## option2: value
-# ============================================================
+
+#============================================================
+# Main Functions
+#-------------------------------------------------------------
+# Section Choices
+## backup, install, restore, setup
+# Option Choices
+## folders, services
 
 [backup]
 folders: /var/www/html, /var/www
@@ -31,11 +18,19 @@ services: iptables
 services: elk
 
 [restore]
-folders: archive/somebackup.zip
 services: iptables
 
 [setup]
 services: iptables
+
+#=============================================================
+# Services
+#-------------------------------------------------------------
+# All services are required to have a section (even if empty)
+# Modules are expected to handle the options themselves.
+## [sectionname]
+## option1: value
+## option2: value
 
 [iptables]
 #Required: List of tcp and udp ports
