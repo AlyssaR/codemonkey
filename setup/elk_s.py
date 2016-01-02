@@ -6,10 +6,8 @@ def run(args):
     OUTPUT:             If success, just use a plain return
             string      If error, return string error message
     """
-    check = raw_input("Have you logged out and logged back in since running the elk install module? (y/n) ")
-    if check == 'n' or check == 'N':
-        return "Please log out/in and run again."
-
+    os_version = float(platform.linux_distribution()[1])
+    
     """Create Docker User"""
     user_name = [x[1] for x in args if x[0] == "username"][0]
     if not user_name:
@@ -39,6 +37,8 @@ def run(args):
     print "[+] Composed appliances"
 
     """Set to Start on Boot"""
+    if os_version > 15:
+        subprocess.Popen(["systemctl", "enable", "docker"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
 
     """Change Default Passwords"""
 

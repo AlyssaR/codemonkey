@@ -40,7 +40,7 @@ def load_modules(directory):
     return [x[:-3] for x in module_names]
 
 def run_modules(mode, module_names):
-    for mod in module_names:
+    for mod in progress(module_names):
         prefix = mod[:3]
 
         """Skip incompatible modules"""
