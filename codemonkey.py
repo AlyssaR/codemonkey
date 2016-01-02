@@ -59,6 +59,8 @@ def run_modules(mode, module_names):
                 print "[!] Insufficient config options provided for", mod
                 return
             result = sys.modules[mod].run(mod_configs)
+        elif mode == "backup" and mod.split('_')[0] == "folders":
+            results = sys.modules[mod].run(configs[mode]["folders"])
         else:
             result = sys.modules[mod].run()
 

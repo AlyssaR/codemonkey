@@ -48,7 +48,7 @@ def run(args):
     os.system("chmod +x /usr/local/bin/docker-compose") #Install docker-compose
     print "[+] Installed docker-engine and docker-compose"
 
-    """Create Docker User"""
+    """Add root to Docker group"""
     subprocess.Popen(["usermod", "-aG", "docker", getpass.getuser()], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
 
     """Config Docker with IP Address"""

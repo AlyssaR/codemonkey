@@ -1,4 +1,4 @@
-import getpass
+import getpass, os, pwd, subprocess
 
 def run(args):
     """
@@ -6,14 +6,33 @@ def run(args):
     OUTPUT:             If success, just use a plain return
             string      If error, return string error message
     """
-    check = input("Have you logged out and logged back in since running the elk install module? (y/n) ")
-    if check[0] == 'n' or check[0] == 'N':
+    check = raw_input("Have you logged out and logged back in since running the elk install module? (y/n) ")
+    if check == 'n' or check == 'N':
         return "Please log out/in and run again."
 
-    """Create User for Docker"""
+    """Create Docker User"""
+    user_name = [x[1] for x in args if x[0] == "username"][0]
+    if not user_name:
+        return "No username provided in config."
+    os.system("useradd -G sudo,docker " + user_name)
+    password = raw_input("Enter new password:")
+    #os.system("echo -e " + password + "\\n" + password + " | passwd " + user_name)
+
+    """Start Docker-Engine as New User"""
+    try:
+        pw_record = pwd.getpwnam(user_name)
+    except:
+        return "Could not get user", user_name
+    return
+    env = os.environ.copy()
+    env['HOME']  = pw_record.pw_dir
+    env['LOGNAME']  = pw_record.pw_name
+    env['PWD']  = os.getcwd()
+    env['USER']  = pw_record.pw_name
+    subprocess.Popen(["service", "docker", "start"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, \
+                    preexec_fn=demote(user_uid, user_gid), cwd=cwd, env=env).wait()
 
     """Start Docker-Engine and Compose DockerFile"""
-    subprocess.Popen(["service", "docker", "start"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
     os.system("cd resources/elk")
     subprocess.Popen(["docker-compose", "up", "-d"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
     os.system("cd ../..")
@@ -27,8 +46,13 @@ def run(args):
 
     return "Module not completed yet."
 
+def demote(user_uid, user_gid):
+    os.setgid(user_gid)
+    os.setuid(user_uid)
+    subprocess.Popen(["usermod", "-aG", "docker", getpass.getuser()], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
+
 def main():
     print "Testing system"
-    print getpass.getuser()
+    print run([("username", "elk")])
 
 if __name__ == '__main__': main()
