@@ -40,7 +40,7 @@ def load_modules(directory):
     return [x[:-3] for x in module_names]
 
 def run_modules(mode, module_names):
-    for mod in progress(module_names):
+    for mod in module_names:
         prefix = mod[:3]
 
         """Skip incompatible modules"""
@@ -95,6 +95,7 @@ def main():
         print "3) Backup"
         print "4) Restore"
         print "5) Clean"
+        print "6) Info"
         print "0) Exit"
 
         choice = input("Choice: ")
@@ -113,6 +114,9 @@ def main():
         elif choice == 5:
             print ">>> Clean <<<"
             run_modules("clean", load_modules("clean"))
+        elif choice == 6:
+            print ">>> Info <<<"
+            run_modules("resources", load_modules("resources"))
         elif choice == 0:
             return
         else:
