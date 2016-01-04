@@ -1,3 +1,21 @@
+"""     CodeMonkey
+authors:        Alyssa Rahman
+last updated:   2016-01-04
+
+description:
+    This suite is intended to help automate system setup, hardening, and administration.
+
+usage: ./codemonkey.py [OPTIONAL: go] [OPTIONAL: file.config]
+
+    Passing "go" as the first argument will run an initial system setup.
+        If not specified, a menu will be brought up to run specific functions.
+
+    Passing a path to a config file will load those configs.
+        If not specified, default config will be loaded.
+        If unable to load or default not found, will exit.
+"""
+
+
 import ConfigParser, imp, os, sys
 
 isWindows = True if (os.name == "nt") else False
@@ -7,24 +25,28 @@ configs = {"install": {"folders": [], "services": []},
             "setup": {"folders": [], "services": []},
             "restore": {"folders": [], "services": []}}
 
+def initial_setup():
+    print "Not done yet..."
+
 def load_configs():
-    if len(sys.argv) == 1:
+    if len(sys.argv) == 1 or sys.argv[1].lower() == "go":
         print "[!] Warning: No config file specified. Using default."
         if os.path.isfile("default.conf"):
             configfile.read("default.conf")
         else:
             return "[!] Error: default.conf not found. Exiting.."
     else:
-        if os.path.isfile(sys.argv[1]):
-            configfile.read(sys.argv[1])
+        if os.path.isfile(sys.argv[-1]):
+            configfile.read(sys.argv[-1])
         else:
-            return "[!] Could not load config file", sys.argv[1]
+            return "[!] Could not load config file", sys.argv[-1]
 
     for section in configs:
-        try:
-            configs[section]["folders"] = configfile.get(section, "folders").split(",")
-        except:
-            print "[?] No folders variable in", section
+        if section == "backup":
+            try:
+                configs[section]["folders"] = configfile.get(section, "folders").split(",")
+            except:
+                print "[?] No folders variable in", section
 
         try:
             configs[section]["services"] = configfile.get(section, "services").split(",")
@@ -87,6 +109,10 @@ def main():
     if result:
         print result
         return
+
+    if sys.argv[1].lower() == "go":
+        print ">>> Performing Initial System Setup <<<"
+        initial_setup()
 
     while True:
         print "\n----- MENU -----"
