@@ -121,9 +121,7 @@ def main():
     print "**WARNING: OS version will return incorrectly for systems above " + \
             "Windows 8 because Microsoft is dumb.\n"
     result = run()
-    if not result:
-        print "Collected System Profile"
-    else:
+    if result:
         print "[!] Error", result
 
 if __name__ == '__main__': main()
