@@ -8,6 +8,7 @@ def run():
     """
     isServer = True if "server" in platform.release().lower() else False
 
+
     print "\n******************************************"
     print "SUMMARY"
     print "******************************************"
@@ -15,6 +16,7 @@ def run():
     print "{:<15} {:<20}".format('IP Address', socket.gethostbyname(socket.gethostname()))
     print "{:<15} {:<20}".format('OS', platform.platform(terse=True))
     print "{:<15} {:<20}".format('Platform', platform.architecture()[0])
+
 
     print "\n******************************************"
     print "USERS"
@@ -24,12 +26,14 @@ def run():
     for u, a in sorted(getUsers().items()):
         print "{:<20} {:<6}".format(u, 'Yes' if a else 'No')
 
+
     if isServer:
         print "\n******************************************"
         print "SERVICES"
         print "******************************************"
         for s in getServices():
             print s
+
 
     print "\n******************************************"
     print "OPEN/ESTABLISHED CONNECTIONS"
@@ -43,22 +47,19 @@ def run():
     tcp = sorted( list(set( [int(x["src"]) for x in ports["tcp"]] )) )
     udp = sorted( list(set( [int(x["src"]) for x in ports["udp"]] )) )
 
-    print "------"
-    print "TCP:"
-    print "------"
+    print "------\nTCP\n------"
     if len(tcp) > 0:
         for t in tcp:
             print t
     else:
         print "No open ports."
-    print "------"
-    print "UDP:"
-    print "------"
+    print "------\nUDP\n------"
     if len(udp) > 0:
         for u in udp:
             print u
     else:
         print "No open ports."
+
 
     """ Do we want this?
     print "\n******************************************"
@@ -67,6 +68,7 @@ def run():
     for p in getPatches():
         print p
     """
+
 
     return
 
