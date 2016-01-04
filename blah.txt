@@ -1,0 +1,47 @@
+>>> Testing System <<<
+**WARNING: OS version will return incorrectly for systems above Windows 8 because Microsoft is dumb.
+
+
+******************************************
+SUMMARY
+******************************************
+Hostname        Laptop              
+IP Address      169.254.200.40      
+OS              Windows-8           
+Platform        64bit               
+
+******************************************
+USERS
+******************************************
+Username             Admin?
+---------------------------
+DefaultAccount       No    
+Administrator        Yes   
+Alyssa               Yes   
+Guest                No    
+
+******************************************
+OPEN/LISTENING PORTS
+******************************************
+
+Active Connections
+
+  Proto  Local Address          Foreign Address        State
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:902            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:912            0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:1947           0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:6646           0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:8092           0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:22350          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49664          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49665          0.0.0.0:0              LISTENING
+  TCP    0.0.0.0:49666          0.0.0.0:0              LISTENING
+Not complete
+
+******************************************
+INSTALLED PATCHES
+******************************************
+Not complete
+[!] Error Module not complete.

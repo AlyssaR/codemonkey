@@ -21,7 +21,7 @@ def run():
     print "******************************************"
     print "{:<20} {:<6}".format('Username','Admin?')
     print "---------------------------"
-    for u, a in getUsers().items():
+    for u, a in sorted(getUsers().items()):
         print "{:<20} {:<6}".format(u, 'Yes' if a else 'No')
 
     if isServer:
@@ -32,24 +32,68 @@ def run():
             print s
 
     print "\n******************************************"
-    print "OPEN/LISTENING PORTS"
+    print "OPEN/ESTABLISHED CONNECTIONS"
     print "******************************************"
-    for p in getPorts():
-        print p
+    ports = getPorts()
+    #Only does common ports
+    # tcp = sorted( list(set( [int(x["src"]) for x in ports["tcp"] if int(x["src"]) < 1024] )) )
+    # udp = sorted( list(set( [int(x["src"]) for x in ports["udp"] if int(x["src"]) < 1024] )) )
 
+    #Does all ports
+    tcp = sorted( list(set( [int(x["src"]) for x in ports["tcp"]] )) )
+    udp = sorted( list(set( [int(x["src"]) for x in ports["udp"]] )) )
+
+    print "------"
+    print "TCP:"
+    print "------"
+    if len(tcp) > 0:
+        for t in tcp:
+            print t
+    else:
+        print "No open ports."
+    print "------"
+    print "UDP:"
+    print "------"
+    if len(udp) > 0:
+        for u in udp:
+            print u
+    else:
+        print "No open ports."
+
+    """ Do we want this?
     print "\n******************************************"
     print "INSTALLED PATCHES"
     print "******************************************"
     for p in getPatches():
         print p
+    """
 
-    return "Module not complete."
+    return
 
 def getPatches():
     return ["Not complete"]
 
 def getPorts():
-    return ["Not complete"]
+    #Run command
+    netstat = subprocess.Popen(["netstat", "-an"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    results = netstat.communicate()[0].split("\r\n")[4:]
+
+    #Format results
+    tcp = []
+    udp = []
+    for r in results:
+        x = filter(None, r.split(" "))
+        if len(x) < 4:
+            continue
+
+        if x[0].lower() == "tcp":
+            if x[3].lower() != "established" and x[3].lower() != "listening":
+                continue
+            tcp.append({"src":x[1].split(":")[-1], "dst":x[2], "state":x[3]})
+        else:
+            udp.append({"src":x[1].split(":")[-1], "dst":x[2], "state":x[3]})
+
+    return {"tcp": tcp, "udp": udp}
 
 def getServices():
     return ["Not complete"]
