@@ -1,0 +1,38 @@
+>>> Testing System <<<
+**WARNING: OS version will return incorrectly for systems above Windows 8 because Microsoft is dumb.
+
+
+******************************************
+SUMMARY
+******************************************
+Hostname        ie8winxp            
+IP Address      169.254.165.170     
+OS              Windows-XP          
+Platform        32bit               
+
+******************************************
+USERS
+******************************************
+Username             Admin?
+---------------------------
+Administrator        Yes   
+Guest                No    
+HelpAssistant        No    
+IEUser               Yes   
+SUPPORT_388945a0     No    
+
+******************************************
+OPEN/ESTABLISHED CONNECTIONS
+******************************************
+------
+TCP
+------
+135
+139
+445
+1029
+3389
+------
+UDP
+------
+No open ports.
