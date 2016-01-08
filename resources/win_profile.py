@@ -1,4 +1,4 @@
-import platform, socket, subprocess
+import os, platform, socket, subprocess
 
 def run():
     """
@@ -98,7 +98,17 @@ def getPorts():
     return {"tcp": tcp, "udp": udp}
 
 def getServices():
-    return ["Not complete"]
+    opersys = platform.platform(terse=True)
+    results = []
+    if "2012" in opersys:
+        #Get-WindowsFeature
+        print "2012"
+    else:
+        #os.system("servermanagercmd -query")
+        proc = subprocess.Popen(["C:\Windows\System32\servermanagercmd.exe", "-query"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=os.environ.copy())
+        print proc.communicate()[0]
+
+    return results
 
 def getUsers():
     #Local users
