@@ -104,9 +104,10 @@ def getServices():
         #Get-WindowsFeature
         print "2012"
     else:
+        print "I hate life."
         #os.system("servermanagercmd -query")
-        proc = subprocess.Popen(["C:\Windows\System32\servermanagercmd.exe", "-query"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=os.environ.copy())
-        print proc.communicate()[0]
+        #proc = subprocess.Popen(["powershell", "-command", "\"servermanagercmd -query\""], shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        #print proc.communicate()[0]
 
     return results
 

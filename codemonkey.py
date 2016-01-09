@@ -1,20 +1,19 @@
 """     CodeMonkey
-authors:        Alyssa Rahman
-last updated:   2016-01-04
+    authors:        Alyssa Rahman
+    last updated:   2016-01-04
 
-description:
-    This suite is intended to help automate system setup, hardening, and administration.
+    description:
+        This suite is intended to help automate system setup, hardening, and administration.
 
-usage: ./codemonkey.py [OPTIONAL: go] [OPTIONAL: file.config]
+    usage: ./codemonkey.py [OPTIONAL: go] [OPTIONAL: file.config]
 
-    Passing "go" as the first argument will run an initial system setup.
-        If not specified, a menu will be brought up to run specific functions.
+        Passing "go" as the first argument will run an initial system setup.
+            If not specified, a menu will be brought up to run specific functions.
 
-    Passing a path to a config file will load those configs.
-        If not specified, default config will be loaded.
-        If unable to load or default not found, will exit.
+        Passing a path to a config file will load those configs.
+            If not specified, default config will be loaded.
+            If unable to load or default not found, will exit.
 """
-
 
 import ConfigParser, imp, os, sys
 
