@@ -109,7 +109,7 @@ def main():
         print result
         return
 
-    if sys.argv[1].lower() == "go":
+    if len(sys.argv) > 1 and sys.argv[1].lower() == "go":
         print ">>> Performing Initial System Setup <<<"
         initial_setup()
 
