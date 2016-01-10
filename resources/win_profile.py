@@ -1,4 +1,4 @@
-import os, platform, socket, subprocess
+import getpass, os, platform, socket, subprocess
 
 def run():
     """
@@ -7,7 +7,6 @@ def run():
             string      If error, return string error message
     """
     isServer = True if "server" in platform.release().lower() else False
-
 
     print "\n******************************************"
     print "SUMMARY"
@@ -101,13 +100,12 @@ def getServices():
     opersys = platform.platform(terse=True)
     results = []
     if "2012" in opersys:
-        #Get-WindowsFeature
-        print "2012"
+        allroles = subprocess.Popen(["powershell", "Get-WindowsFeature"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0]
+        print allroles
     else:
-        print "I hate life."
-        #os.system("servermanagercmd -query")
-        #proc = subprocess.Popen(["powershell", "-command", "\"servermanagercmd -query\""], shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        #print proc.communicate()[0]
+        allroles = subprocess.Popen([".\\resources\\ServerManagerCmd.exe", "-query"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0].split('\r\n')
+        installed = [x.split("X]")[1][1:] for x in allroles if "[X]" in x]
+        results.extend(installed)
 
     return results
 
