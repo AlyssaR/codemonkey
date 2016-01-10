@@ -21,7 +21,7 @@ isWindows = True if (os.name == "nt") else False
 configfile = ConfigParser.ConfigParser()
 configs = {"install": {"folders": [], "services": []},
             "backup": {"folders": [], "services": []},
-            "clean": {"folders": [], "services": []}
+            "clean": {"folders": [], "services": []},
             "setup": {"folders": [], "services": []},
             "restore": {"folders": [], "services": []}}
 
