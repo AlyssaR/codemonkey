@@ -98,9 +98,9 @@ def getPorts():
 
 def getServices():
     opersys = platform.platform(terse=True)
-    
+
     if "2012" in opersys:
-        allroles = subprocess.Popen(["powershell", "Get-WindowsFeature"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0]
+        allroles = subprocess.Popen(["powershell", "Get-WindowsFeature"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0].split('\r\n')
     else:
         allroles = subprocess.Popen([".\\resources\\ServerManagerCmd.exe", "-query"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0].split('\r\n')
 
