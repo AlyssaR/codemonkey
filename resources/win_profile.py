@@ -98,16 +98,13 @@ def getPorts():
 
 def getServices():
     opersys = platform.platform(terse=True)
-    results = []
+    
     if "2012" in opersys:
         allroles = subprocess.Popen(["powershell", "Get-WindowsFeature"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0]
-        print allroles
     else:
         allroles = subprocess.Popen([".\\resources\\ServerManagerCmd.exe", "-query"], stdin=subprocess.PIPE, stdout=subprocess.PIPE).communicate()[0].split('\r\n')
-        installed = [x.split("X]")[1][1:] for x in allroles if "[X]" in x]
-        results.extend(installed)
 
-    return results
+    return [x.split("X]")[1][1:] for x in allroles if "[X]" in x]
 
 def getUsers():
     #Local users
