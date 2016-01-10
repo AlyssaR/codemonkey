@@ -4,8 +4,6 @@ import os
 
 def run(args):
 	print
-	print "-----------------------"
-	print "Running"
 	"""
     INPUT:  args        List of arguments, may be a list of objects
     OUTPUT:             If success, just use a plain return
@@ -14,24 +12,14 @@ def run(args):
     NOTE:		        args looks like [('tcp', '22, 80, 443'), ('udp', '53')]
     """
 
-	#First we will backup the current iptables rules
-	createBackup("Firewall_Original_Backup")
+	#Here we will restore iptables rules
+	p = subprocess.Popen(["ls", "-lah", "archive/"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+	output = p.stdout.read()
+	print output	
 
-
-	#Next we will clear the current iptables rules
-	clear()
-
-
-	#Next we will run the setup with the passed arguments
-	tcp_ports = args[0][1].split(', ')
-
-	udp_ports = args[1][1].split(', ')
-
-	setup(tcp_ports, udp_ports)
-
-
-	#Finally, we will print out the new iptables setup!
-	show()
+	fileName = raw_input("Which iptables backup file would you like to restore?:")
+	
+	restoreFromBackup(fileName)
 
 	return
 
@@ -121,7 +109,7 @@ def createBackup(fileName):
 	print
 	print "-----------------------"
 	filePath = "archive/" + fileName
-	print "Creating Backup Located At:", filePath
+	print "Creating iptables Rules Backup Located At:", filePath
 	command = "iptables-save > " + filePath
 	os.system(command)
 
@@ -130,12 +118,13 @@ def createBackup(fileName):
 def restoreFromBackup(fileName):
 	print
 	print "-----------------------"
-	print "Restoring Backup From File:", fileName
+	print "Restoring iptables Rules Backup From File:", fileName
 	print fileName
 
 	#insecure need to find a way with subprocesses
 	#also would like to see if the file is there... error handling!
-	command = "iptables-restore < " + fileName
+	filePath = "archive/" + fileName
+	command = "iptables-restore < " + filePath
 	os.system(command)
 
 

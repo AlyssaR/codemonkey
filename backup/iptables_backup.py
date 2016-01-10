@@ -4,8 +4,6 @@ import os
 
 def run(args):
 	print
-	print "-----------------------"
-	print "Running"
 	"""
     INPUT:  args        List of arguments, may be a list of objects
     OUTPUT:             If success, just use a plain return
@@ -14,24 +12,14 @@ def run(args):
     NOTE:		        args looks like [('tcp', '22, 80, 443'), ('udp', '53')]
     """
 
-	#First we will backup the current iptables rules
-	createBackup("Firewall_Original_Backup")
+	#Here we will backup the current iptables rules
+	p = subprocess.Popen(["ls", "-lah", "archive/"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+	output = p.stdout.read()
+	print output	
 
+	fileName = raw_input("What would you like to name the iptables backup?:")
 
-	#Next we will clear the current iptables rules
-	clear()
-
-
-	#Next we will run the setup with the passed arguments
-	tcp_ports = args[0][1].split(', ')
-
-	udp_ports = args[1][1].split(', ')
-
-	setup(tcp_ports, udp_ports)
-
-
-	#Finally, we will print out the new iptables setup!
-	show()
+	createBackup(fileName)
 
 	return
 
