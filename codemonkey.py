@@ -65,19 +65,22 @@ def load_modules(directory):
 def run_modules(mode, module_names):
     for mod in module_names:
         prefix = mod[:3]
+        isService = False if prefix == "lin" or prefix == "win" else True
 
         """Skip incompatible modules"""
         if (isWindows and prefix == "lin") or (not isWindows and prefix == "win"):
             continue
 
-        print "[+] Running", mod
+        if not isService:
+            print "[+] Running", mod
 
         """If module is a service, retrieve additional args"""
         if mode == "backup" and mod.split('_')[0] == "folders":
             results = sys.modules[mod].run(configs[mode]["folders"])
-        elif prefix != "lin" and prefix != "win":
+        elif isService:
             if mod.split('_')[0] not in configs[mode]["services"]:
                 continue
+            print "[+] Running", mod
             try:
                 mod_configs = configfile.items(mod.split('_')[0])
             except: #Error if no service section

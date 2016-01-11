@@ -1,4 +1,4 @@
-import getpass, os, pwd, subprocess
+import getpass, os, platform, pwd, subprocess
 
 def run(args):
     """
@@ -7,14 +7,18 @@ def run(args):
             string      If error, return string error message
     """
     os_version = float(platform.linux_distribution()[1])
-    
+
     """Create Docker User"""
     user_name = [x[1] for x in args if x[0] == "username"][0]
     if not user_name:
         return "No username provided in config."
     os.system("useradd -G sudo,docker " + user_name)
-    password = raw_input("Enter new password:")
+    subprocess.Popen(["passwd", user_name]).wait()
+    #password = raw_input("Enter new password: ")
+    #print password
     #os.system("echo -e " + password + "\\n" + password + " | passwd " + user_name)
+
+    return
 
     """Start Docker-Engine as New User"""
     try:
