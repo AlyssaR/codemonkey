@@ -23,6 +23,7 @@ configs = {"install": {"folders": [], "services": []},
             "backup": {"folders": [], "services": []},
             "clean": {"folders": [], "services": []},
             "setup": {"folders": [], "services": []},
+            "resources": {"folders": [], "services": []},
             "restore": {"folders": [], "services": []}}
 
 def initial_setup():
@@ -121,7 +122,8 @@ def main():
         print "3) Backup"
         print "4) Restore"
         print "5) Clean"
-        print "6) Info"
+        print "6) Resources/Profile"
+        print "7) USAGE OK RUSSELL"
         print "0) Exit"
 
         choice = input("Choice: ")
@@ -143,6 +145,15 @@ def main():
         elif choice == 6:
             print ">>> Info <<<"
             run_modules("resources", load_modules("resources"))
+        elif choice == 7:
+            print "\tCodeMonkey\nauthors:        Alyssa Rahman\nlast updated:   2016-01-04"
+            print "description:\n\tThis suite is intended to help automate system setup, hardening, and administration."
+            print "usage: ./codemonkey.py [OPTIONAL: go] [OPTIONAL: file.config]"
+            print "\tPassing \"go\" as the first argument will run an initial system setup."
+            print "\t\tIf not specified, a menu will be brought up to run specific functions."
+            print "\t\tPassing a path to a config file will load those configs."
+            print "\t\t\tIf not specified, default config will be loaded."
+            print "\t\t\tIf unable to load or default not found, will exit."
         elif choice == 0:
             return
         else:
