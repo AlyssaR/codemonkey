@@ -67,13 +67,15 @@ def run_modules(mode, module_names):
         prefix = mod[:3]
 
         """Skip incompatible modules"""
-        if (isWindows and prefix == "lin_") or (not isWindows and prefix == "win_"):
+        if (isWindows and prefix == "lin") or (not isWindows and prefix == "win"):
             continue
 
         print "[+] Running", mod
 
         """If module is a service, retrieve additional args"""
-        if prefix != "lin_" and prefix != "win_":
+        if mode == "backup" and mod.split('_')[0] == "folders":
+            results = sys.modules[mod].run(configs[mode]["folders"])
+        elif prefix != "lin" and prefix != "win":
             if mod.split('_')[0] not in configs[mode]["services"]:
                 continue
             try:
@@ -82,8 +84,6 @@ def run_modules(mode, module_names):
                 print "[!] Insufficient config options provided for", mod
                 return
             result = sys.modules[mod].run(mod_configs)
-        elif mode == "backup" and mod.split('_')[0] == "folders":
-            results = sys.modules[mod].run(configs[mode]["folders"])
         else:
             result = sys.modules[mod].run()
 
