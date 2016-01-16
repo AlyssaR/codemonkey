@@ -38,6 +38,12 @@ def run():
     for line in getConnections():
         print line
 
+
+    print "\n******************************************"
+    print "BACKING UP BASH HISTORY FOR KNOWN USERS"
+    print "******************************************"
+    getBashHistory(getUsers())
+
     return
 
 
@@ -109,6 +115,17 @@ def getUsers():
 
     return userList
 
+
+def getBashHistory(userList):
+
+
+	#print userList
+	
+	for user in userList:
+		print user[0]
+
+
+	return True
 
 
 def main():
