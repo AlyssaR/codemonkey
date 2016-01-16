@@ -1,4 +1,4 @@
-import getpass, os, platform, socket, subprocess
+import getpass, os, platform, socket, subprocess, datetime
 
 def run():
     """
@@ -118,12 +118,29 @@ def getUsers():
 
 def getBashHistory(userList):
 
+	#check to see if dir exists for bash history
+	if not os.path.isdir("archive/bash_history"):
+		os.makedirs("archive/bash_history")
 
-	#print userList
-	
+
+	usersToBackupHistory = []
+
+	print "{:<20} {:<30} {:<20}".format('Username','Home Directory', '.bash_history exists?')
+	print "--------------------------------------------------------------------------"
+    
 	for user in userList:
-		print user[0]
+		if os.path.exists(user[5] + "/.bash_history"):
+			print "{:<20} {:<35} {:<20}".format(user[0],user[5],"y")
+			usersToBackupHistory.append(user)
+		else:
+			print "{:<20} {:<35} {:<20}".format(user[0],user[5],"n")
 
+	print 
+	print "Backing up bash_history for users with an existing file"
+	print "--------------------------------------------------------------------------"
+	for user in usersToBackupHistory:
+		subprocess.Popen(["cp", (user[5] + "/.bash_history"), ("archive/bash_history/" + user[0] + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H%M_") + str(datetime.datetime.now().second) + ".txt")], stdin=subprocess.PIPE, stdout=subprocess.PIPE).wait()
+		print user[0], "done"
 
 	return True
 
