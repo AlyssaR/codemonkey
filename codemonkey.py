@@ -109,6 +109,11 @@ def test(args):
             print "[*] Success!"
 
 def main():
+
+    #Russell is adding this because he knows alyssa won't
+    if not os.path.isdir("archive"):
+        os.makedirs("archive")
+        
     result = load_configs()
     if result:
         print result
