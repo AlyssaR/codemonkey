@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import os
+import datetime
 
 def run(args):
 	print
@@ -19,7 +20,6 @@ def run(args):
 
 
 	return
-
 
 
 def setup(tcp_ports, udp_ports):
@@ -105,7 +105,10 @@ def setup(tcp_ports, udp_ports):
 def createBackup(fileName):
 	print
 	print "-----------------------"
-	filePath = "archive/" + fileName
+	if not os.path.isdir("archive/Firewall"):
+		os.makedirs("archive/Firewall")
+
+	filePath = "archive/Firewall/" + fileName + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H%M_") + str(datetime.datetime.now().second)
 	print "Creating Backup Located At:", filePath
 	command = "iptables-save > " + filePath
 	os.system(command)

@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import os
+import datetime
 
 def run(args):
 	print
@@ -13,15 +14,17 @@ def run(args):
     """
 
 	#Here we will restore iptables rules
-	p = subprocess.Popen(["ls", "-lah", "archive/"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+	p = subprocess.Popen(["ls", "-lah", "archive/Firewall"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 	output = p.stdout.read()
 	print output	
-
+	print "-----------------------"
+	print "Please remember to include full directory structure from codemonkey.py ;)"
 	fileName = raw_input("Which iptables backup file would you like to restore?:")
 	
 	restoreFromBackup(fileName)
 
 	return
+
 
 
 
@@ -108,8 +111,11 @@ def setup(tcp_ports, udp_ports):
 def createBackup(fileName):
 	print
 	print "-----------------------"
-	filePath = "archive/" + fileName
-	print "Creating iptables Rules Backup Located At:", filePath
+	if not os.path.isdir("archive/Firewall"):
+		os.makedirs("archive/Firewall")
+
+	filePath = "archive/Firewall/" + fileName + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H%M_") + str(datetime.datetime.now().second)
+	print "Creating Backup Located At:", filePath
 	command = "iptables-save > " + filePath
 	os.system(command)
 
@@ -118,13 +124,12 @@ def createBackup(fileName):
 def restoreFromBackup(fileName):
 	print
 	print "-----------------------"
-	print "Restoring iptables Rules Backup From File:", fileName
+	print "Restoring Backup From File:", fileName
 	print fileName
 
 	#insecure need to find a way with subprocesses
 	#also would like to see if the file is there... error handling!
-	filePath = "archive/" + fileName
-	command = "iptables-restore < " + filePath
+	command = "iptables-restore < " + fileName
 	os.system(command)
 
 

@@ -1,6 +1,9 @@
 import subprocess
 import sys
 import os
+import datetime
+
+
 
 def run(args):
 	print
@@ -13,10 +16,11 @@ def run(args):
     """
 
 	#Here we will backup the current iptables rules
-	p = subprocess.Popen(["ls", "-lah", "archive/"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+	p = subprocess.Popen(["ls", "-lah", "archive/Firewall"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 	output = p.stdout.read()
-	print output	
-
+	print output
+	print "-----------------------"
+	print "Please note, a date and time will be appended to your filename for your convenience ;)"
 	fileName = raw_input("What would you like to name the iptables backup?:")
 
 	createBackup(fileName)
@@ -108,7 +112,10 @@ def setup(tcp_ports, udp_ports):
 def createBackup(fileName):
 	print
 	print "-----------------------"
-	filePath = "archive/" + fileName
+	if not os.path.isdir("archive/Firewall"):
+		os.makedirs("archive/Firewall")
+
+	filePath = "archive/Firewall/" + fileName + "_" + datetime.datetime.now().strftime("%Y-%m-%d_%H%M_") + str(datetime.datetime.now().second)
 	print "Creating Backup Located At:", filePath
 	command = "iptables-save > " + filePath
 	os.system(command)
