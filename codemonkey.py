@@ -110,10 +110,9 @@ def test(args):
 
 def main():
 
-    #Russell is adding this because he knows alyssa won't
-    if not os.path.isdir("archive"):
+    if not os.path.isdir("archive"): #create archive directory if it doesn't exist
         os.makedirs("archive")
-        
+
     result = load_configs()
     if result:
         print result

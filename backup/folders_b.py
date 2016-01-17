@@ -7,7 +7,7 @@ def run(args):
             string      If error, return string error message
     """
 
-    if not os.path.exists("archive"): #create archive directory if it doesn't exist
+    if not os.path.isdir("archive"): #create archive directory if it doesn't exist
         os.makedirs("archive")
 
     zip_name = datetime.datetime.now().strftime("archive/" + platform.node() + "_%Y-%m-%d_%H-%M.zip")
