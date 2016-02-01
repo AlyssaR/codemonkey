@@ -77,7 +77,7 @@ def run_modules(mode, module_names):
         """If module is a service, retrieve additional args"""
         if mode == "backup" and mod.split('_')[0] == "folders":
             result = sys.modules[mod].run(configs[mode]["folders"])
-        elif isService:
+        elif isService: #if it is a service it has to have a section in the config file
             if mod.split('_')[0] not in configs[mode]["services"]:
                 continue
             print "[+] Running", mod
@@ -87,7 +87,7 @@ def run_modules(mode, module_names):
                 print "[!] Insufficient config options provided for", mod
                 return
             result = sys.modules[mod].run(mod_configs)
-        else:
+        else: #if it's not a service it has no arguments
             result = sys.modules[mod].run()
 
         """Display results"""
