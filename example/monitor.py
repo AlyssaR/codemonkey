@@ -1,5 +1,6 @@
 import sys
 sys.path.append("watchdog-0.8.3/src/")
+sys.path.append("pathtools-0.1.2")
 import time
 import logging
 from watchdog import *
@@ -9,6 +10,7 @@ import subprocess
 
 class MyHandler(PatternMatchingEventHandler):
 	patterns = ["/var/log/auth.log"]
+
 
 	def process(self, event):
 		"""
@@ -24,11 +26,11 @@ class MyHandler(PatternMatchingEventHandler):
 
 		#IF this event triggers, provide output of the latest line added to said file.
 		#Maybe need to confirm wall is installed.
-		p = subprocess.Popen(["tail", "-n", "1", "/var/log/auth.log"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-		output = p.stdout.read()
+		#p = subprocess.Popen(["tail", "-n", "1", "/var/log/auth.log"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+		#output = p.stdout.read()
 
 
-		p = subprocess.Popen(["wall", output], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+		#p = subprocess.Popen(["wall", output], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
 
@@ -44,7 +46,7 @@ class MyHandler(PatternMatchingEventHandler):
 if __name__ == '__main__':
 	args = sys.argv[1:]
 	observer = Observer()
-	observer.schedule(MyHandler(), path=args[0] if args else '/var/log')
+	observer.schedule(MyHandler(), path=args[0] if args else ('/var/log/'))
 	observer.start()
 
 	try:
