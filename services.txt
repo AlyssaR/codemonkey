@@ -3,6 +3,14 @@ Servermanagercmd.exe is deprecated, and is not guaranteed to be supported in fut
 
 ....
 
+
+------------------------------Preston:
+yum install -y yum-security
+yum update --security
+
+apt-get install -y unattended-upgrades
+--------------------------------------
+
 ----- Roles -----
 
 [ ] Active Directory Certificate Services  [AD-Certificate]
